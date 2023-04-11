@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -41,10 +43,15 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun LoginSignup(
-    viewModel: LoginViewModel = viewModel(),
+    //viewModel: LoginViewModel = viewModel(),
 ){
     // Fetching the Local Context
     val mContext = LocalContext.current
+
+    val loginViewModel: LoginViewModel = viewModel(modelClass = LoginViewModel::class.java)
+    val state by loginViewModel.state.collectAsState()
+
+    println(state)
 
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -67,7 +74,9 @@ fun LoginSignup(
             Box(modifier = Modifier.weight(0.5f)){}
             Button(
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-                modifier = Modifier.fillMaxWidth().height(50.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
                 onClick = {
                     mContext.startActivity(Intent(mContext, LogInActivity::class.java))
                 }
@@ -81,7 +90,11 @@ fun LoginSignup(
             }
             Button(
                 colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.mantis), ),
-                modifier = Modifier.fillMaxWidth().padding( vertical = 10.dp).padding(bottom = 80.dp).height(50.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp)
+                    .padding(bottom = 80.dp)
+                    .height(50.dp),
                 border = BorderStroke(1.dp, Color.White),
                 shape = RoundedCornerShape(10),
                 onClick = {
