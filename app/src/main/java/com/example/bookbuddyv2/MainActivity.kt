@@ -18,7 +18,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.bookbuddyv2.ViewModels.LoginViewModel
 import com.example.bookbuddyv2.ui.theme.BookBuddyV2Theme
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +40,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginSignup(){
+fun LoginSignup(
+    viewModel: LoginViewModel = viewModel(),
+){
     // Fetching the Local Context
     val mContext = LocalContext.current
 
