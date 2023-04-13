@@ -1,6 +1,5 @@
 package com.example.bookbuddyv2
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.bookbuddyv2.ui.theme.BookBuddyV2Theme
 
-class LogInActivity : ComponentActivity() {
+class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -32,23 +31,23 @@ class LogInActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    SignIn()
+                    Register()
                 }
             }
         }
     }
-}
+
 
 @Composable
-fun SignIn() {
-
+fun Register() {
+    val mContext = LocalContext.current
     var userName = remember { mutableStateOf("") }
     val userPassword = remember { mutableStateOf("") }
+    val userEmail = remember { mutableStateOf("") }
 
     Box(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight()) {
-
 
         Column() {
             Column(
@@ -65,12 +64,10 @@ fun SignIn() {
                     .weight(4f)
                     .fillMaxSize()
             ) {
-            loginButton(userName = "", userPassword = "") {
+                RegisterButton(userName = "", userPassword = "", userPassword2 = "", userEmail = "")
+                {
 
-            }
-
-
-
+                }
             }
             //Text(text = "asd", modifier = Modifier.background(colorResource(id = R.color.mantis)))
         }
@@ -78,12 +75,13 @@ fun SignIn() {
 }
 
 @Composable
-fun loginButton(
+fun RegisterButton(
     userName : String,
     userPassword: String,
+    userPassword2: String,
+    userEmail: String,
     onButtonClick: (String) -> Unit
 ) {
-    val mContext = LocalContext.current
     Column(modifier = Modifier.padding(20.dp)) {
         TextField(
             modifier = Modifier.fillMaxWidth(),
@@ -95,7 +93,17 @@ fun loginButton(
             label = { Text("User Name")
             }
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.mantis)
+            ),
+            value = userEmail,
+            onValueChange = onButtonClick,
+            label = { Text("Email") }
+        )
+        Spacer(modifier = Modifier.height(10.dp))
         TextField(
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
@@ -105,7 +113,17 @@ fun loginButton(
             onValueChange = onButtonClick,
             label = { Text("Password") }
         )
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(10.dp))
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = colorResource(id = R.color.mantis)
+            ),
+            value = userPassword2,
+            onValueChange = onButtonClick,
+            label = { Text("Repeat Password") }
+        )
+        Spacer(modifier = Modifier.height(20.dp))
         Button(
             colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             modifier = Modifier
@@ -113,39 +131,22 @@ fun loginButton(
                 .height(50.dp),
             onClick = {
                 //mContext.startActivity(Intent(mContext, LogInActivity::class.java))
-                }
+            }
         ) {
             Text(
-                text = "Log in",
+                text = "Register",
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
                 color = colorResource(id = R.color.mantis),
             )
         }
-        Spacer(modifier = Modifier.height(20.dp))
-        Button(
-            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.mantis)),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            border = BorderStroke(1.dp, Color.White),
-            shape = RoundedCornerShape(10),
-            onClick = {
-                mContext.startActivity(Intent(mContext, RegisterActivity::class.java))
-            }
-        ) {
-            Text(
-                text = "Sign in",
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Color.White
-            )
-        }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview2() {
-    SignIn()
+    Register()
+}
 }
